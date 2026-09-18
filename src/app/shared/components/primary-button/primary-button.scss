@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.primary-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--app-spacing-sm);
+  height: 44px;
+
+  &__spinner {
+    display: inline-flex;
+
+    ::ng-deep circle {
+      stroke: currentColor;
+    }
+  }
+}

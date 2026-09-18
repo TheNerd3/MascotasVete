@@ -1,0 +1,17 @@
+<button
+  mat-raised-button
+  class="primary-button"
+  [color]="color()"
+  [type]="tipo()"
+  [disabled]="deshabilitado() || cargando()"
+  (click)="onClick()"
+>
+  @if (cargando()) {
+    <mat-spinner diameter="20" class="primary-button__spinner" />
+  } @else {
+    @if (icono(); as nombreIcono) {
+      <mat-icon aria-hidden="true">{{ nombreIcono }}</mat-icon>
+    }
+    <span>{{ texto() }}</span>
+  }
+</button>

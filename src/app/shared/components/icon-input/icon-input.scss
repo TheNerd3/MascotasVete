@@ -1,0 +1,13 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.icon-input {
+  width: 100%;
+
+  mat-icon[matPrefix] {
+    margin-right: var(--app-spacing-sm);
+    color: var(--mat-sys-on-surface-variant);
+  }
+}

@@ -1,0 +1,48 @@
+<section class="home-page">
+  <h1 class="home-page__titulo">
+    <mat-icon aria-hidden="true">pets</mat-icon>
+    Mascotas Córdoba
+  </h1>
+  <p class="home-page__descripcion">
+    Registro único de mascotas, información sanitaria, adopciones y veterinarias
+    adheridas al programa municipal.
+  </p>
+
+  <div class="home-page__grid">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Registrá tu mascota</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Sumá a tu mascota al registro único municipal y llevá su carnet sanitario digital.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/mascotas/nueva">Registrar</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Adoptá una mascota</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Mirá las publicaciones activas de los refugios adheridos.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/adopciones">Ver publicaciones</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Veterinarias adheridas</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        Consultá el listado de veterinarias habilitadas por la municipalidad.
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button color="primary" routerLink="/veterinarias">Ver veterinarias</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>

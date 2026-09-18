@@ -1,0 +1,23 @@
+@use 'breakpoints' as bp;
+
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--app-spacing-md);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--mat-sys-primary) 8%, white) 0%,
+    white 60%
+  );
+
+  @include bp.desde-sm {
+    padding: var(--app-spacing-xl);
+  }
+
+  &__panel {
+    width: 100%;
+    max-width: var(--app-max-width-form);
+  }
+}

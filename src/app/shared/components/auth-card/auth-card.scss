@@ -1,0 +1,23 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: var(--app-max-width-form);
+  margin: 0 auto;
+  padding: var(--app-spacing-lg);
+  border-radius: var(--app-radius-lg);
+  background: var(--mat-sys-surface);
+  box-shadow: var(--app-shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: var(--app-spacing-md);
+
+  @include bp.desde-sm {
+    padding: var(--app-spacing-xl);
+  }
+}

@@ -1,0 +1,30 @@
+.registro-page {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-spacing-sm);
+  }
+
+  &__error {
+    color: var(--mat-sys-error, #b3261e);
+    font-size: 0.875rem;
+    margin: 0;
+    text-align: center;
+  }
+
+  &__login {
+    margin: 0;
+    text-align: center;
+    font-size: 0.875rem;
+
+    a {
+      color: var(--mat-sys-primary);
+      font-weight: 600;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

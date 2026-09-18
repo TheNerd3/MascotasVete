@@ -1,0 +1,15 @@
+.en-construccion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--mat-sys-on-surface-variant, #666);
+
+  &__icono {
+    font-size: 3rem;
+    height: 3rem;
+    width: 3rem;
+  }
+}

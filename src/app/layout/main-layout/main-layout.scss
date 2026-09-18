@@ -1,0 +1,26 @@
+.main-layout {
+  &__toolbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  &__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: inherit;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  &__spacer {
+    flex: 1 1 auto;
+  }
+
+  &__content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+}

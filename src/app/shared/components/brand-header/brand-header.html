@@ -1,0 +1,9 @@
+<div class="brand-header">
+  <div class="brand-header__icono" aria-hidden="true">
+    <mat-icon>{{ icono() }}</mat-icon>
+  </div>
+  <h1 class="brand-header__titulo">{{ titulo() }}</h1>
+  @if (subtitulo(); as texto) {
+    <p class="brand-header__subtitulo">{{ texto }}</p>
+  }
+</div>

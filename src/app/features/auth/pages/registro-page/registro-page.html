@@ -1,0 +1,56 @@
+<app-auth-card>
+  <app-brand-header icono="pets" titulo="Crear cuenta" subtitulo="Registrate como ciudadano" />
+
+  <form [formGroup]="form" (ngSubmit)="enviar()" class="registro-page__form">
+    <app-icon-input label="Nombre" icono="badge" formControlName="nombre" [errorTexto]="errorNombre" />
+
+    <app-icon-input label="Apellido" icono="badge" formControlName="apellido" [errorTexto]="errorApellido" />
+
+    <app-icon-input
+      label="CUIL"
+      icono="person"
+      placeholder="20123456789"
+      autocomplete="username"
+      formControlName="cuil"
+      [errorTexto]="errorCuil"
+    />
+
+    <app-icon-input
+      label="Contraseña"
+      icono="lock"
+      tipo="password"
+      autocomplete="new-password"
+      formControlName="clave"
+      [errorTexto]="errorClave"
+    />
+
+    <app-icon-input
+      label="Correo"
+      icono="mail"
+      tipo="email"
+      autocomplete="email"
+      formControlName="correo"
+      [errorTexto]="errorCorreo"
+    />
+
+    <app-icon-input label="Teléfono" icono="call" tipo="tel" formControlName="telefono" />
+
+    <app-icon-input label="Domicilio" icono="home" formControlName="domicilio" />
+
+    @if (errorMensaje(); as mensaje) {
+      <p class="registro-page__error" role="alert">{{ mensaje }}</p>
+    }
+
+    <app-primary-button
+      texto="Registrarme"
+      icono="how_to_reg"
+      tipo="submit"
+      [cargando]="cargando()"
+      [deshabilitado]="form.invalid"
+    />
+  </form>
+
+  <p class="registro-page__login">
+    ¿Ya tenés cuenta? <a routerLink="/auth/login">Ingresá</a>
+  </p>
+</app-auth-card>

@@ -1,0 +1,36 @@
+<mat-form-field appearance="outline" class="icon-input">
+  @if (label(); as texto) {
+    <mat-label>{{ texto }}</mat-label>
+  }
+
+  @if (icono(); as nombreIcono) {
+    <mat-icon matPrefix aria-hidden="true">{{ nombreIcono }}</mat-icon>
+  }
+
+  <input
+    matInput
+    [type]="tipoEfectivo"
+    [placeholder]="placeholder()"
+    [autocomplete]="autocomplete()"
+    [disabled]="deshabilitado()"
+    [ngModel]="valor()"
+    (ngModelChange)="manejarInput($event)"
+    (blur)="manejarBlur()"
+  />
+
+  @if (tipo() === 'password') {
+    <button
+      matSuffix
+      mat-icon-button
+      type="button"
+      [attr.aria-label]="mostrarClave() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+      (click)="alternarMostrarClave()"
+    >
+      <mat-icon aria-hidden="true">{{ mostrarClave() ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+  }
+
+  @if (errorTexto(); as mensaje) {
+    <mat-error>{{ mensaje }}</mat-error>
+  }
+</mat-form-field>
