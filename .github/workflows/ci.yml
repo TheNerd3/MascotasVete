@@ -1,0 +1,65 @@
+# Integración continua (CI) del frontend Angular.
+# Cada vez que se hace push o se abre un pull request contra main,
+# GitHub revisa automáticamente que el código:
+#   1. respete las reglas de estilo (lint),
+#   2. pase todos los tests,
+#   3. compile para producción (build).
+# Si el proyecto Angular todavía no existe (no hay package.json),
+# los pasos se saltean y el workflow no falla.
+
+name: CI Frontend
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-test-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Verificar si ya existe el proyecto Angular
+        id: proyecto
+        run: |
+          if [ -f package.json ]; then
+            echo "existe=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "existe=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Todavía no hay package.json: se saltean lint, tests y build."
+          fi
+
+      - name: Instalar Node.js
+        if: steps.proyecto.outputs.existe == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalar dependencias
+        if: steps.proyecto.outputs.existe == 'true'
+        run: npm ci
+
+      - name: Lint (reglas de estilo con ESLint)
+        if: steps.proyecto.outputs.existe == 'true'
+        run: npx ng lint
+
+      - name: Tests
+        if: steps.proyecto.outputs.existe == 'true'
+        run: npx ng test --watch=false
+
+      - name: Build de producción
+        if: steps.proyecto.outputs.existe == 'true'
+        run: npx ng build --configuration production
+
+      - name: Guardar el build generado
+        if: steps.proyecto.outputs.existe == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist/
+          retention-days: 7
