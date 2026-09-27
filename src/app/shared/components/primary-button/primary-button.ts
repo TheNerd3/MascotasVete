@@ -4,17 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 /**
- * Boton de accion principal, ancho completo, con icono opcional y
- * estado de carga integrado (spinner + deshabilitado). Evita repetir
- * el mismo bloque @if(cargando) / mat-spinner en cada formulario.
+ * Botón principal de ancho completo, con ícono opcional y un estado de
+ * carga que muestra un spinner y se deshabilita solo, para no repetir
+ * esa lógica en cada formulario:
  *
- * Uso:
- *   <app-primary-button
- *     texto="Iniciar sesión"
- *     icono="login"
- *     tipo="submit"
- *     [cargando]="cargando()"
- *     [deshabilitado]="form.invalid" />
+ *   <app-primary-button texto="Iniciar sesión" tipo="submit" [cargando]="cargando()" />
  */
 @Component({
   selector: 'app-primary-button',

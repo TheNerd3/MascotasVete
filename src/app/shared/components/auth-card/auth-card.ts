@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 
 /**
- * Contenedor de tarjeta blanca centrada, con sombra suave y ancho
- * maximo, usado como base visual de las pantallas de autenticacion
- * (login, registro). El contenido real se proyecta con <ng-content>,
- * asi cada pantalla arma su propio formulario adentro.
+ * Tarjeta blanca centrada que sirve de base visual para las pantallas
+ * de login y registro. Lo que se pone adentro (formulario, textos) lo
+ * decide cada pantalla, esta tarjeta solo da el marco.
  */
 @Component({
   selector: 'app-auth-card',

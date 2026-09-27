@@ -1,7 +1,8 @@
 /**
- * Decodificacion "liviana" del payload de un JWT (sin verificar firma:
- * eso ya lo hizo el backend, aca solo se lee para poblar el estado de
- * la UI). No usar esto como mecanismo de seguridad del lado del cliente.
+ * Lee los datos guardados dentro de un token de sesión (JWT) sin
+ * verificar su firma: esa verificación ya la hizo el backend al
+ * generarlo. Solo se usa para mostrar datos en la pantalla, nunca
+ * como control de seguridad del lado del navegador.
  */
 export function decodificarPayloadJwt<T>(token: string): T | null {
   try {
@@ -17,6 +18,10 @@ export function decodificarPayloadJwt<T>(token: string): T | null {
   }
 }
 
+/**
+ * Indica si el token de sesión ya venció, comparando su fecha de
+ * expiración contra la hora actual del navegador.
+ */
 export function jwtExpirado(token: string): boolean {
   const payload = decodificarPayloadJwt<{ exp?: number }>(token);
   if (!payload?.exp) {

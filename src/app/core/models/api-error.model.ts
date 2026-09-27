@@ -1,6 +1,6 @@
 /**
- * Cuerpo de error estandar que devuelve el backend
- * (GlobalExceptionHandler / ErrorResponse en MascotasVeteBack).
+ * Formato con el que el backend informa un error (código HTTP y
+ * mensaje en español, listo para mostrarle al ciudadano).
  */
 export interface ApiError {
   timestamp: string;

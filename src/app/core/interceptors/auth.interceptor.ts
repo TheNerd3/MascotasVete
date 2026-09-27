@@ -2,12 +2,8 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-/**
- * Agrega el header "Authorization: Bearer <token>" a cada request salvo
- * a las rutas publicas del backend (login, alta de ciudadano, listados
- * publicos), que no lo necesitan y no deberian fallar si el usuario no
- * esta logueado.
- */
+// Endpoints públicos del backend que no necesitan token: si el ciudadano
+// no inició sesión, la petición igual tiene que funcionar.
 const RUTAS_PUBLICAS = [
   '/auth/login',
   '/veterinarias',
@@ -16,6 +12,10 @@ const RUTAS_PUBLICAS = [
   '/carnet/validar',
 ];
 
+/**
+ * Agrega el token de sesión a cada pedido al backend, salvo a los
+ * endpoints públicos (login, listados de veterinarias/refugios, etc.).
+ */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.obtenerToken();

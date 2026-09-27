@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ApiError } from '../../../../core/models';
@@ -9,9 +9,13 @@ import { AuthCard } from '../../../../shared/components/auth-card/auth-card';
 import { IconInput } from '../../../../shared/components/icon-input/icon-input';
 import { PrimaryButton } from '../../../../shared/components/primary-button/primary-button';
 
+/**
+ * Pantalla de login del ciudadano. Implementa RF15: pide CUIL y
+ * contraseña, y si son correctos guarda la sesión y entra a la app.
+ */
 @Component({
   selector: 'app-login-page',
-  imports: [ReactiveFormsModule, RouterLink, BrandHeader, AuthCard, IconInput, PrimaryButton],
+  imports: [ReactiveFormsModule, BrandHeader, AuthCard, IconInput, PrimaryButton],
   templateUrl: './login-page.html',
   styleUrl: './login-page.scss',
 })

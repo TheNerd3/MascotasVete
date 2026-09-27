@@ -1,8 +1,8 @@
 import { Perfil } from './perfil.enum';
 
 /**
- * Datos del usuario autenticado que se guardan en sesion (derivados del
- * JWT) para uso en la UI: guards, menu segun perfil, ownership checks.
+ * Datos del ciudadano que inició sesión, guardados mientras dura la
+ * visita para no tener que pedirlos de nuevo en cada pantalla.
  */
 export interface UsuarioAutenticado {
   idCiudadano: number;

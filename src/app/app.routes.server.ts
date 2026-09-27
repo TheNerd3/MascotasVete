@@ -1,12 +1,11 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
 
 /**
- * Modo de renderizado por ruta para SSR:
- * - Prerender solo para la home (contenido estatico, ideal para SEO
- *   y carga instantanea).
- * - Server para el resto: hay rutas dinamicas (ej: mascotas/:nrm) y
- *   paginas que dependen de sesion/datos en tiempo real, que no se
- *   pueden precalcular en build time.
+ * Cómo se genera cada página en el servidor. La página de inicio se
+ * arma una sola vez de antemano (Prerender) porque siempre muestra lo
+ * mismo. El resto se genera en cada visita (Server) porque depende de
+ * la sesión del ciudadano o de datos que cambian, como una mascota
+ * puntual.
  */
 export const serverRoutes: ServerRoute[] = [
   {

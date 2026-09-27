@@ -1,27 +1,17 @@
 import { Component, forwardRef, input, signal } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 
 /**
- * Input con icono a la izquierda (y toggle de mostrar/ocultar para
- * passwords), implementado como ControlValueAccessor para poder usarlo
- * exactamente igual que un <input> nativo con [formControlName] o
- * [(ngModel)] en cualquier feature, sin repetir el markup de
- * mat-form-field + mat-icon en cada formulario.
+ * Campo de texto con un ícono a la izquierda (y botón de mostrar/ocultar
+ * cuando es contraseña). Se usa en cualquier formulario igual que un
+ * <input> común, con formControlName:
  *
- * Uso:
- *   <app-icon-input
- *     label="CUIL"
- *     icono="person"
- *     placeholder="Ingrese su CUIL"
- *     formControlName="cuil" />
+ *   <app-icon-input label="CUIL" icono="person" formControlName="cuil" />
  */
 @Component({
   selector: 'app-icon-input',
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatIconModule, MatButtonModule],
+  imports: [FormsModule, MatIconModule],
   templateUrl: './icon-input.html',
   styleUrl: './icon-input.scss',
   providers: [
@@ -33,12 +23,19 @@ import { MatButtonModule } from '@angular/material/button';
   ],
 })
 export class IconInput implements ControlValueAccessor {
+  private static contadorInstancias = 0;
+
   readonly label = input<string | null>(null);
   readonly icono = input<string | null>(null);
   readonly placeholder = input('');
   readonly tipo = input<'text' | 'email' | 'password' | 'tel'>('text');
   readonly autocomplete = input('off');
   readonly errorTexto = input<string | null>(null);
+
+  // Cada input necesita un id único para que su <label> lo pueda
+  // referenciar, incluso cuando hay varios app-icon-input en la misma
+  // pantalla (por ejemplo, el formulario de registro).
+  protected readonly idCampo = `icon-input-${IconInput.contadorInstancias++}`;
 
   protected readonly valor = signal('');
   protected readonly deshabilitado = signal(false);

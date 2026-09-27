@@ -7,9 +7,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { AuthService } from '../../core/services/auth.service';
 
 /**
- * Shell visual para las paginas "de aplicacion" (con navegacion,
- * distinto del layout minimal de auth). Vive en layout/ porque no es
- * una feature de negocio, es infraestructura visual compartida.
+ * Estructura general de la aplicación (barra de navegación superior +
+ * contenido de la página). Muestra opciones distintas según si hay un
+ * ciudadano logueado o no.
  */
 @Component({
   selector: 'app-main-layout',

@@ -2,9 +2,9 @@ import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 /**
- * Cabecera de marca reutilizable: icono circular + titulo + subtitulo.
- * Se usa en el login, el registro, y cualquier otra pantalla que
- * necesite reforzar el branding institucional del programa municipal.
+ * Encabezado con el logo (ícono circular), el título y el subtítulo
+ * institucional. Se usa en login, registro y cualquier otra pantalla
+ * que necesite mostrar la marca del programa municipal.
  */
 @Component({
   selector: 'app-brand-header',

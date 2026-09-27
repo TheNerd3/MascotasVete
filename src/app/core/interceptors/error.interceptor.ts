@@ -5,12 +5,9 @@ import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 /**
- * Manejo centralizado de errores HTTP:
- * - 401 (token invalido/expirado): limpia la sesion y redirige a login,
- *   asi ningun componente tiene que reimplementar esa logica.
- * - El resto de los errores se re-lanzan tal cual (con el ApiError del
- *   backend en error.error) para que cada feature los muestre como
- *   corresponda (snackbar, mensaje en el formulario, etc).
+ * Cierra la sesión y manda al login cuando el backend responde que el
+ * token venció o no es válido (401), para que el ciudadano no se quede
+ * viendo una pantalla rota.
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);

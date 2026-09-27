@@ -5,11 +5,23 @@
 
 .primary-button {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--app-spacing-sm);
-  height: 44px;
+  height: 48px;
+  border-radius: var(--app-radius-sm);
+  font-weight: 600;
+
+  ::ng-deep .mdc-button__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--app-spacing-sm);
+    width: 100%;
+  }
+
+  mat-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   &__spinner {
     display: inline-flex;

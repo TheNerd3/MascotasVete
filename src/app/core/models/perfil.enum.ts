@@ -1,7 +1,8 @@
 /**
- * Perfiles de usuario que puede devolver el backend en el JWT
- * (ver POST /api/auth/login). Debe mantenerse en sincronia con los
- * valores que emite LocalAuthService en MascotasVeteBack.
+ * Roles con los que un usuario puede quedar autenticado en el sistema
+ * (RF15). El backend decide cuál corresponde según cómo esa persona
+ * está vinculada en la base: dueño de mascota, responsable de refugio,
+ * profesional de una veterinaria o personal municipal.
  */
 export enum Perfil {
   Ciudadano = 'CIUDADANO',

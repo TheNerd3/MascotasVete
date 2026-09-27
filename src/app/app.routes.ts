@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 
 /**
- * Arbol de rutas raiz. Cada feature es un bundle lazy independiente
- * (loadChildren), asi el bundle inicial solo trae el shell + home.
- * Dos layouts conviven: MainLayout (navegacion completa) y AuthLayout
- * (minimal, para login/registro).
+ * Rutas principales de la aplicación. Cada sección se carga bajo
+ * demanda (lazy loading) para que el primer ingreso a la página sea
+ * rápido, aunque la aplicación crezca con más secciones.
  */
 export const routes: Routes = [
   {
@@ -19,12 +18,14 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        loadComponent: () => import('./features/home/pages/home-page/home-page').then((m) => m.HomePage),
+        loadComponent: () =>
+          import('./features/home/pages/home-page/home-page').then((m) => m.HomePage),
         title: 'Mascotas Córdoba',
       },
       {
         path: 'mascotas',
-        loadChildren: () => import('./features/mascotas/mascotas.routes').then((m) => m.MASCOTAS_ROUTES),
+        loadChildren: () =>
+          import('./features/mascotas/mascotas.routes').then((m) => m.MASCOTAS_ROUTES),
       },
       {
         path: 'veterinarias',
@@ -33,13 +34,16 @@ export const routes: Routes = [
       },
       {
         path: 'refugios',
-        loadChildren: () => import('./features/refugios/refugios.routes').then((m) => m.REFUGIOS_ROUTES),
+        loadChildren: () =>
+          import('./features/refugios/refugios.routes').then((m) => m.REFUGIOS_ROUTES),
       },
       {
         path: 'adopciones',
-        loadChildren: () => import('./features/adopciones/adopciones.routes').then((m) => m.ADOPCIONES_ROUTES),
+        loadChildren: () =>
+          import('./features/adopciones/adopciones.routes').then((m) => m.ADOPCIONES_ROUTES),
       },
       {
+        // Consulta al asistente virtual con IA generativa (RF21).
         path: 'asistente',
         loadComponent: () =>
           import('./shared/components/en-construccion/en-construccion').then((m) => m.EnConstruccion),

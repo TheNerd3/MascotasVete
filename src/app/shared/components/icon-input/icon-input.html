@@ -1,36 +1,46 @@
-<mat-form-field appearance="outline" class="icon-input">
+<div class="icon-input">
   @if (label(); as texto) {
-    <mat-label>{{ texto }}</mat-label>
+    <label class="icon-input__label" [for]="idCampo">{{ texto }}</label>
   }
 
-  @if (icono(); as nombreIcono) {
-    <mat-icon matPrefix aria-hidden="true">{{ nombreIcono }}</mat-icon>
-  }
+  <div
+    class="icon-input__field"
+    [class.icon-input__field--error]="errorTexto()"
+    [class.icon-input__field--disabled]="deshabilitado()"
+  >
+    @if (icono(); as nombreIcono) {
+      <span class="icon-input__prefijo">
+        <mat-icon aria-hidden="true">{{ nombreIcono }}</mat-icon>
+      </span>
+    }
 
-  <input
-    matInput
-    [type]="tipoEfectivo"
-    [placeholder]="placeholder()"
-    [autocomplete]="autocomplete()"
-    [disabled]="deshabilitado()"
-    [ngModel]="valor()"
-    (ngModelChange)="manejarInput($event)"
-    (blur)="manejarBlur()"
-  />
+    <input
+      #campo
+      class="icon-input__input"
+      [id]="idCampo"
+      [type]="tipoEfectivo"
+      [placeholder]="placeholder()"
+      [autocomplete]="autocomplete()"
+      [disabled]="deshabilitado()"
+      [ngModel]="valor()"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="manejarInput($event)"
+      (blur)="manejarBlur()"
+    />
 
-  @if (tipo() === 'password') {
-    <button
-      matSuffix
-      mat-icon-button
-      type="button"
-      [attr.aria-label]="mostrarClave() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
-      (click)="alternarMostrarClave()"
-    >
-      <mat-icon aria-hidden="true">{{ mostrarClave() ? 'visibility_off' : 'visibility' }}</mat-icon>
-    </button>
-  }
+    @if (tipo() === 'password') {
+      <button
+        type="button"
+        class="icon-input__toggle"
+        [attr.aria-label]="mostrarClave() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+        (click)="alternarMostrarClave()"
+      >
+        <mat-icon aria-hidden="true">{{ mostrarClave() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    }
+  </div>
 
   @if (errorTexto(); as mensaje) {
-    <mat-error>{{ mensaje }}</mat-error>
+    <p class="icon-input__error" role="alert">{{ mensaje }}</p>
   }
-</mat-form-field>
+</div>

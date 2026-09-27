@@ -2,8 +2,9 @@ import { Routes } from '@angular/router';
 import { authGuard } from '../../core/guards/auth.guard';
 
 /**
- * RF06 (registrar mascota), RF20 (consultar mis mascotas). Todas
- * requieren sesion: el ciudadano gestiona sus propias mascotas.
+ * Rutas de mascotas del ciudadano logueado: ver las propias (RF20),
+ * registrar una nueva (RF06) y ver el carnet sanitario digital
+ * (RF10/RF11). Todas requieren sesión iniciada.
  */
 export const MASCOTAS_ROUTES: Routes = [
   {

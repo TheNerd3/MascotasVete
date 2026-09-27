@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-// RF17: listado publico de veterinarias habilitadas, sin auth.
+/** Listado público de veterinarias adheridas al programa (RF17). */
 export const VETERINARIAS_ROUTES: Routes = [
   {
     path: '',

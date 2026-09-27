@@ -30,9 +30,10 @@ interface LoginResponse {
 }
 
 /**
- * Autenticacion contra el backend (RF15). Mantiene el estado de sesion
- * en signals para que cualquier componente/guard pueda reaccionar sin
- * suscribirse a un Observable a mano.
+ * Autentica ciudadanos contra el backend y mantiene la sesión activa.
+ * Implementa RF15. El backend simula CiDi validando contra
+ * ciudadanos.cuil y ciudadanos.clave; esta clase no sabe eso, solo
+ * consume POST /api/auth/login.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -84,10 +85,9 @@ export class AuthService {
       return null;
     }
 
-    // El JWT no trae nombre/apellido (solo cuil, idCiudadano, perfil):
-    // se completan en blanco hasta que un GET /api/ciudadanos/{id} los
-    // traiga (ver CiudadanoService), evitando decodificar datos que no
-    // estan en el token.
+    // El token no trae nombre ni apellido, solo cuil, idCiudadano y perfil.
+    // Quedan vacíos hasta que la pantalla que los necesite los pida con
+    // CiudadanosService.
     return {
       idCiudadano: payload.idCiudadano,
       cuil: payload.sub,

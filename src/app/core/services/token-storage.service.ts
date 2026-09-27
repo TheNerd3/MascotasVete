@@ -4,10 +4,10 @@ import { isPlatformBrowser } from '@angular/common';
 const TOKEN_KEY = 'mascotas_vete_token';
 
 /**
- * Unico punto de acceso a localStorage para el token JWT. Aislado en un
- * servicio para que el resto del codigo no dependa de localStorage
- * directamente (mas facil de testear/mockear, y necesario porque en SSR
- * no existe localStorage del lado del servidor).
+ * Guarda y lee el token de sesión del ciudadano en el navegador.
+ * Se aísla acá en vez de usar localStorage directo porque en el
+ * renderizado del servidor (SSR) no existe localStorage: hay que
+ * comprobar primero en qué entorno se está ejecutando el código.
  */
 @Injectable({ providedIn: 'root' })
 export class TokenStorageService {

@@ -3,10 +3,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 /**
- * Placeholder para secciones cuya pantalla todavia no se desarrollo.
- * Permite que las rutas de cada feature ya existan y naveguen
- * correctamente desde el primer momento, sin bloquear el resto de la
- * app mientras se van completando en PRs sucesivos.
+ * Pantalla provisoria para secciones que todavía no están desarrolladas.
+ * Permite que todas las rutas de la aplicación ya funcionen y se pueda
+ * navegar entre ellas mientras cada sección se va completando de a poco.
  */
 @Component({
   selector: 'app-en-construccion',

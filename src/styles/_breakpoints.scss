@@ -1,10 +1,7 @@
-// Breakpoints centralizados para que todos los componentes (shared y
-// features) respondan de forma consistente. Mobile-first: los estilos
-// base son para mobile, los mixins agregan overrides desde ese ancho.
-$breakpoint-sm: 600px; // telefonos grandes / mobile landscape
-$breakpoint-md: 900px; // tablets
-$breakpoint-lg: 1200px; // desktop
-$breakpoint-xl: 1536px; // desktop grande
+$breakpoint-sm: 600px;
+$breakpoint-md: 900px;
+$breakpoint-lg: 1200px;
+$breakpoint-xl: 1536px;
 
 @mixin desde-sm {
   @media (min-width: $breakpoint-sm) {
@@ -29,7 +26,3 @@ $breakpoint-xl: 1536px; // desktop grande
     @content;
   }
 }
-
-// Uso en un componente:
-//   @use 'styles/breakpoints' as bp;
-//   .mi-clase { @include bp.desde-md { grid-template-columns: 1fr 1fr; } }

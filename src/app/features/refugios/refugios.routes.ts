@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-// RF18: listado publico de refugios habilitados, sin auth.
+/** Listado público de refugios adheridos al programa (RF18). */
 export const REFUGIOS_ROUTES: Routes = [
   {
     path: '',

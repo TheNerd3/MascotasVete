@@ -4,9 +4,9 @@ import { AuthService } from '../services/auth.service';
 import { Perfil } from '../models';
 
 /**
- * Factory de guard: restringe una ruta a uno o mas perfiles
- * (ej: solo REFUGIO puede gestionar publicaciones de adopcion propias).
- * Uso en las rutas: canActivate: [perfilGuard([Perfil.Refugio])]
+ * Impide entrar a una ruta si el usuario logueado no tiene uno de los
+ * perfiles permitidos (por ejemplo, solo refugios pueden gestionar sus
+ * publicaciones de adopción, RF13).
  */
 export function perfilGuard(perfilesPermitidos: Perfil[]): CanActivateFn {
   return () => {

@@ -1,3 +1,7 @@
+/**
+ * Datos de un ciudadano tal como los devuelve el backend. Nunca incluye
+ * la clave: el backend no la manda de vuelta por seguridad.
+ */
 export interface Ciudadano {
   idCiudadano: number;
   apellido: string;
@@ -7,14 +11,4 @@ export interface Ciudadano {
   telefono: string | null;
   domicilio: string | null;
   habilitado: boolean;
-}
-
-export interface RegistrarCiudadanoRequest {
-  apellido: string;
-  nombre: string;
-  cuil: string;
-  clave: string;
-  correo?: string;
-  telefono?: string;
-  domicilio?: string;
 }

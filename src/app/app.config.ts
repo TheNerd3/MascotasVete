@@ -11,6 +11,11 @@ import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 
+/**
+ * Configuración general de la aplicación: rutas, conexión HTTP con el
+ * backend (con el token de sesión agregado automáticamente) y
+ * animaciones de Angular Material.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
