@@ -18,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class PrimaryButton {
   readonly texto = input.required<string>();
+  readonly textoCargando = input<string | null>(null);
   readonly icono = input<string | null>(null);
   readonly tipo = input<'button' | 'submit'>('button');
   readonly cargando = input(false);

@@ -8,6 +8,9 @@
 >
   @if (cargando()) {
     <mat-spinner diameter="20" class="primary-button__spinner" />
+    @if (textoCargando(); as texto) {
+      <span>{{ texto }}</span>
+    }
   } @else {
     @if (icono(); as nombreIcono) {
       <mat-icon aria-hidden="true">{{ nombreIcono }}</mat-icon>

@@ -6,8 +6,13 @@ import { UsuarioAutenticado } from '../models';
 import { TokenStorageService } from './token-storage.service';
 import { decodificarPayloadJwt, jwtExpirado } from '../utils/jwt.util';
 
-interface LoginRequest {
+interface LoginFormulario {
   cuil: string;
+  clave: string;
+}
+
+interface LoginRequest {
+  usuario: string;
   clave: string;
 }
 
@@ -24,16 +29,15 @@ interface CiudadanoResponse {
 
 interface LoginResponse {
   token: string;
-  tipo: string;
-  ciudadano: CiudadanoResponse;
-  perfil: UsuarioAutenticado['perfil'];
+  expiraEn: number;
+  usuario: CiudadanoResponse;
 }
 
 /**
  * Autentica ciudadanos contra el backend y mantiene la sesión activa.
  * Implementa RF15. El backend simula CiDi validando contra
  * ciudadanos.cuil y ciudadanos.clave; esta clase no sabe eso, solo
- * consume POST /api/auth/login.
+ * consume POST /auth/login.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -43,18 +47,30 @@ export class AuthService {
   private readonly usuarioSignal = signal<UsuarioAutenticado | null>(this.restaurarSesion());
 
   readonly usuario = this.usuarioSignal.asReadonly();
-  readonly estaAutenticado = computed(() => this.usuarioSignal() !== null);
+  readonly estaAutenticado = computed(() => {
+    const usuario = this.usuarioSignal();
+    if (!usuario) {
+      return false;
+    }
+    const token = this.tokenStorage.obtener();
+    return !!token && !jwtExpirado(token);
+  });
 
-  login(request: LoginRequest): Observable<LoginResponse> {
+  login(formulario: LoginFormulario): Observable<LoginResponse> {
+    const request: LoginRequest = { usuario: formulario.cuil, clave: formulario.clave };
+
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, request).pipe(
       tap((respuesta) => {
         this.tokenStorage.guardar(respuesta.token);
+
+        const payload = decodificarPayloadJwt<{ perfil: UsuarioAutenticado['perfil'] }>(respuesta.token);
+
         this.usuarioSignal.set({
-          idCiudadano: respuesta.ciudadano.idCiudadano,
-          cuil: respuesta.ciudadano.cuil,
-          nombre: respuesta.ciudadano.nombre,
-          apellido: respuesta.ciudadano.apellido,
-          perfil: respuesta.perfil,
+          idCiudadano: respuesta.usuario.idCiudadano,
+          cuil: respuesta.usuario.cuil,
+          nombre: respuesta.usuario.nombre,
+          apellido: respuesta.usuario.apellido,
+          perfil: payload!.perfil,
         });
       }),
     );

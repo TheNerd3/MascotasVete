@@ -22,11 +22,12 @@
     />
 
     @if (errorMensaje(); as mensaje) {
-      <p class="login-page__error" role="alert">{{ mensaje }}</p>
+      <p class="login-page__error" role="alert" aria-live="assertive">{{ mensaje }}</p>
     }
 
     <app-primary-button
       texto="Iniciar sesión"
+      textoCargando="Ingresando…"
       icono="login"
       tipo="submit"
       [cargando]="cargando()"

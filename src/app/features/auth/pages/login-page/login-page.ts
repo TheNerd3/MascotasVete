@@ -3,7 +3,7 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/auth.service';
-import { ApiError } from '../../../../core/models';
+import { ApiErrorLogin } from '../../../../core/models';
 import { BrandHeader } from '../../../../shared/components/brand-header/brand-header';
 import { AuthCard } from '../../../../shared/components/auth-card/auth-card';
 import { IconInput } from '../../../../shared/components/icon-input/icon-input';
@@ -62,9 +62,25 @@ export class LoginPage {
       },
       error: (error: HttpErrorResponse) => {
         this.cargando.set(false);
-        const apiError = error.error as ApiError | undefined;
-        this.errorMensaje.set(apiError?.message ?? 'Cuil o clave incorrectos');
+        this.errorMensaje.set(this.interpretarError(error));
       },
     });
+  }
+
+  private interpretarError(error: HttpErrorResponse): string {
+    if (error.status === 0) {
+      return 'No se pudo conectar con el servidor. Probá de nuevo en unos minutos.';
+    }
+
+    if (error.status === 401) {
+      const errorLogin = error.error as ApiErrorLogin | undefined;
+      return errorLogin?.mensaje ?? 'Usuario o clave incorrectos';
+    }
+
+    if (error.status === 400) {
+      return 'Revisá los datos ingresados: hay campos incompletos o incorrectos.';
+    }
+
+    return 'Ocurrió un error inesperado. Probá de nuevo.';
   }
 }
