@@ -3,7 +3,9 @@
 # GitHub revisa automáticamente que el código:
 #   1. respete las reglas de estilo (lint),
 #   2. pase todos los tests,
-#   3. compile para producción (build).
+#   3. compile para producción (build),
+#   4. y lo analiza en SonarQube Cloud (bugs, vulnerabilidades, código duplicado, cobertura).
+#      Este paso solo corre si está cargado el secreto SONAR_TOKEN en el repo.
 # Si el proyecto Angular todavía no existe (no hay package.json),
 # los pasos se saltean y el workflow no falla.
 
@@ -18,10 +20,15 @@ on:
 jobs:
   lint-test-build:
     runs-on: ubuntu-latest
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
     steps:
       - name: Descargar el código
         uses: actions/checkout@v4
+        with:
+          # Historia completa: SonarQube la usa para saber qué código es nuevo
+          fetch-depth: 0
 
       - name: Verificar si ya existe el proyecto Angular
         id: proyecto
@@ -50,11 +57,15 @@ jobs:
 
       - name: Tests
         if: steps.proyecto.outputs.existe == 'true'
-        run: npx ng test --watch=false
+        run: npx ng test --watch=false --coverage
 
       - name: Build de producción
         if: steps.proyecto.outputs.existe == 'true'
         run: npx ng build --configuration production
+
+      - name: Análisis de calidad con SonarQube Cloud
+        if: steps.proyecto.outputs.existe == 'true' && env.SONAR_TOKEN != ''
+        uses: SonarSource/sonarqube-scan-action@v5
 
       - name: Guardar el build generado
         if: steps.proyecto.outputs.existe == 'true'
