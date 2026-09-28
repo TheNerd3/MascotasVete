@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
  *
  *   <app-icon-input label="CUIL" icono="person" formControlName="cuil" />
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+function sinOperacion(): void {}
 @Component({
   selector: 'app-icon-input',
   imports: [FormsModule, MatIconModule],
@@ -41,8 +43,8 @@ export class IconInput implements ControlValueAccessor {
   protected readonly deshabilitado = signal(false);
   protected readonly mostrarClave = signal(false);
 
-  private onChange: (valor: string) => void = () => {};
-  private onTouched: () => void = () => {};
+  private onChange: (valor: string) => void = sinOperacion;
+  private onTouched: () => void = sinOperacion;
 
   protected get tipoEfectivo(): string {
     if (this.tipo() !== 'password') {
