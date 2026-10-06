@@ -10,4 +10,6 @@ export interface UsuarioAutenticado {
   perfil: Perfil;
   nombre: string;
   apellido: string;
+  idRefugio: number | null;
+  idVeterinaria: number | null;
 }

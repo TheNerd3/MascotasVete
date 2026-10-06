@@ -3,11 +3,18 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../../core/services/auth.service';
-import { ApiErrorLogin } from '../../../../core/models';
+import { ApiErrorLogin, Perfil } from '../../../../core/models';
 import { BrandHeader } from '../../../../shared/components/brand-header/brand-header';
 import { AuthCard } from '../../../../shared/components/auth-card/auth-card';
 import { IconInput } from '../../../../shared/components/icon-input/icon-input';
 import { PrimaryButton } from '../../../../shared/components/primary-button/primary-button';
+import { environment } from '../../../../../environments/environment';
+
+interface CredencialPrueba {
+  etiqueta: string;
+  cuil: string;
+  clave: string;
+}
 
 /**
  * Pantalla de login del ciudadano. Implementa RF15: pide CUIL y
@@ -26,6 +33,14 @@ export class LoginPage {
 
   readonly cargando = signal(false);
   readonly errorMensaje = signal<string | null>(null);
+
+  // Solo se muestran en desarrollo (no en el build de producción), para
+  // no tener que ir a buscar los datos de prueba cada vez.
+  readonly mostrarCredencialesPrueba = !environment.production;
+  readonly credencialesPrueba: CredencialPrueba[] = [
+    { etiqueta: 'Refugio (Marcos Diaz)', cuil: '20345678906', clave: 'Prueba123!' },
+    { etiqueta: 'Ciudadano (Ana Gimenez)', cuil: '20123456786', clave: 'Prueba123!' },
+  ];
 
   readonly form = this.fb.nonNullable.group({
     cuil: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
@@ -46,6 +61,10 @@ export class LoginPage {
     return null;
   }
 
+  protected usarCredencialPrueba(credencial: CredencialPrueba): void {
+    this.form.setValue({ cuil: credencial.cuil, clave: credencial.clave });
+  }
+
   enviar(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -58,13 +77,23 @@ export class LoginPage {
     this.authService.login(this.form.getRawValue()).subscribe({
       next: () => {
         this.cargando.set(false);
-        this.router.navigate(['/']);
+        this.router.navigateByUrl(this.rutaSegunPerfil());
       },
       error: (error: HttpErrorResponse) => {
         this.cargando.set(false);
         this.errorMensaje.set(this.interpretarError(error));
       },
     });
+  }
+
+  private rutaSegunPerfil(): string {
+    const perfil = this.authService.usuario()?.perfil;
+
+    if (perfil === Perfil.Refugio) {
+      return '/adopciones/mis-publicaciones';
+    }
+
+    return '/';
   }
 
   private interpretarError(error: HttpErrorResponse): string {

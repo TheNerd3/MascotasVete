@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use './theme-colors' as theme-colors;
 
 html {
   height: 100%;
@@ -6,17 +7,17 @@ html {
     (
       color: (
         theme-type: light,
-        primary: mat.$green-palette,
-        tertiary: mat.$blue-palette,
+        primary: theme-colors.$primary-palette,
+        tertiary: theme-colors.$tertiary-palette,
       ),
       typography: Roboto,
       density: 0,
     )
   );
 
-  --app-radius-sm: 10px;
-  --app-radius-md: 16px;
-  --app-radius-lg: 24px;
+  --app-radius-sm: 12px;
+  --app-radius-md: 20px;
+  --app-radius-lg: 28px;
   --app-spacing-xs: 0.25rem;
   --app-spacing-sm: 0.5rem;
   --app-spacing-md: 1rem;

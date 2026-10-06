@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  min-height: 100%;
+}
+
+.app-layout__contenido {
+  padding: var(--app-spacing-lg) var(--app-spacing-md);
+
+  @media (min-width: 600px) {
+    padding: var(--app-spacing-xl) var(--app-spacing-lg);
+  }
+}

@@ -1,0 +1,17 @@
+<header class="top-bar">
+  <div class="top-bar__marca">
+    <mat-icon class="top-bar__icono" aria-hidden="true">favorite</mat-icon>
+    <span class="top-bar__titulo">{{ titulo() }}</span>
+  </div>
+
+  <nav class="top-bar__nav">
+    <ng-content></ng-content>
+  </nav>
+
+  @if (cuil(); as valorCuil) {
+    <div class="top-bar__usuario">
+      <mat-icon class="top-bar__usuario-icono" aria-hidden="true">account_circle</mat-icon>
+      <span class="top-bar__usuario-cuil">CUIL: {{ valorCuil }}</span>
+    </div>
+  }
+</header>

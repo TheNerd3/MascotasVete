@@ -43,27 +43,46 @@ describe('AuthService', () => {
 
     const peticion = backendSimulado.expectOne(`${environment.apiUrl}/auth/login`);
     expect(peticion.request.method).toBe('POST');
-    expect(peticion.request.body).toEqual({ usuario: '20123456789', clave: 'claveSegura123' });
+    expect(peticion.request.body).toEqual({ cuil: '20123456789', clave: 'claveSegura123' });
 
     peticion.flush({
       token,
-      expiraEn: 3600,
-      usuario: {
-        idCiudadano: 1,
-        apellido: 'Perez',
-        nombre: 'Ana',
-        cuil: '20123456789',
-        correo: null,
-        telefono: null,
-        domicilio: null,
-        habilitado: true,
-      },
+      idCiudadano: 1,
+      nombre: 'Ana',
+      apellido: 'Perez',
+      perfil: 'CIUDADANO',
+      idRefugio: null,
+      idVeterinaria: null,
     });
 
     expect(servicio.obtenerToken()).toBe(token);
     expect(servicio.estaAutenticado()).toBe(true);
     expect(servicio.usuario()?.nombre).toBe('Ana');
     expect(servicio.usuario()?.perfil).toBe('CIUDADANO');
+  });
+
+  it('al iniciar sesión como refugio, guarda el idRefugio', () => {
+    const token = crearJwtDeFantasia({
+      sub: '20345678906',
+      idCiudadano: 27,
+      perfil: 'REFUGIO',
+      exp: Math.floor(Date.now() / 1000) + 3600,
+    });
+
+    servicio.login({ cuil: '20345678906', clave: 'claveSegura123' }).subscribe();
+
+    backendSimulado.expectOne(`${environment.apiUrl}/auth/login`).flush({
+      token,
+      idCiudadano: 27,
+      nombre: 'Marcos',
+      apellido: 'Diaz',
+      perfil: 'REFUGIO',
+      idRefugio: 10,
+      idVeterinaria: null,
+    });
+
+    expect(servicio.usuario()?.perfil).toBe('REFUGIO');
+    expect(servicio.usuario()?.idRefugio).toBe(10);
   });
 
   it('logout borra el token y la sesión activa', () => {
@@ -75,22 +94,15 @@ describe('AuthService', () => {
     });
 
     servicio.login({ cuil: '20123456789', clave: 'claveSegura123' }).subscribe();
-    backendSimulado
-      .expectOne(`${environment.apiUrl}/auth/login`)
-      .flush({
-        token,
-        expiraEn: 3600,
-        usuario: {
-          idCiudadano: 1,
-          apellido: 'Perez',
-          nombre: 'Ana',
-          cuil: '20123456789',
-          correo: null,
-          telefono: null,
-          domicilio: null,
-          habilitado: true,
-        },
-      });
+    backendSimulado.expectOne(`${environment.apiUrl}/auth/login`).flush({
+      token,
+      idCiudadano: 1,
+      nombre: 'Ana',
+      apellido: 'Perez',
+      perfil: 'CIUDADANO',
+      idRefugio: null,
+      idVeterinaria: null,
+    });
 
     expect(servicio.estaAutenticado()).toBe(true);
 

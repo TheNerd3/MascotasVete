@@ -38,4 +38,16 @@
   <p class="login-page__footer">
     Acceso seguro al Programa Municipal de Bienestar Animal
   </p>
+
+  @if (mostrarCredencialesPrueba) {
+    <div class="login-page__credenciales-prueba">
+      <p class="login-page__credenciales-prueba-titulo">Credenciales de prueba (solo en desarrollo)</p>
+      @for (credencial of credencialesPrueba; track credencial.cuil) {
+        <button type="button" class="login-page__credencial-prueba" (click)="usarCredencialPrueba(credencial)">
+          <span class="login-page__credencial-prueba-etiqueta">{{ credencial.etiqueta }}</span>
+          <span class="login-page__credencial-prueba-datos">CUIL {{ credencial.cuil }} · {{ credencial.clave }}</span>
+        </button>
+      }
+    </div>
+  }
 </app-auth-card>

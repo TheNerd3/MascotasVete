@@ -1,0 +1,42 @@
+<header class="mis-publicaciones-page__encabezado">
+  <div class="mis-publicaciones-page__encabezado-texto">
+    <span class="mis-publicaciones-page__badge">Gestión de publicaciones</span>
+    <h1 class="mis-publicaciones-page__titulo">Mis publicaciones de adopción</h1>
+    <p class="mis-publicaciones-page__subtitulo">Administrá las mascotas disponibles para adopción del refugio.</p>
+  </div>
+
+  <app-primary-button texto="Nueva publicación" icono="add" />
+</header>
+
+<section class="mis-publicaciones-page__filtros">
+  <app-icon-input
+    class="mis-publicaciones-page__busqueda"
+    label="Buscar mascota"
+    icono="search"
+    placeholder="Nombre de la mascota..."
+    name="busqueda"
+    [ngModel]="busqueda()"
+    (ngModelChange)="busqueda.set($event)"
+  />
+
+  <mat-form-field class="mis-publicaciones-page__estado" subscriptSizing="dynamic">
+    <mat-label>Estado</mat-label>
+    <mat-select name="estado" [ngModel]="estado()" (ngModelChange)="estado.set($event)">
+      @for (opcion of estadosDisponibles; track opcion) {
+        <mat-option [value]="opcion">{{ opcion }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <span class="mis-publicaciones-page__contador">Publicaciones: {{ publicacionesFiltradas().length }}</span>
+</section>
+
+@if (publicacionesFiltradas().length > 0) {
+  <div class="mis-publicaciones-page__grid">
+    @for (publicacion of publicacionesFiltradas(); track publicacion.nroPublicacion) {
+      <app-publicacion-card [publicacion]="publicacion" (pausar)="pausar($event)" (eliminar)="eliminar($event)" />
+    }
+  </div>
+} @else {
+  <p class="mis-publicaciones-page__vacio">No encontramos publicaciones con esos filtros.</p>
+}

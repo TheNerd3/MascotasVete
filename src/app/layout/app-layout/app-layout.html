@@ -1,0 +1,7 @@
+<app-top-bar [cuil]="usuario()?.cuil ?? null">
+  <a routerLink="/adopciones/mis-publicaciones" routerLinkActive="activo">Publicaciones</a>
+</app-top-bar>
+
+<main class="app-layout__contenido">
+  <router-outlet />
+</main>

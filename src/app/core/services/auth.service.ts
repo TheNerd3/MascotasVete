@@ -12,25 +12,18 @@ interface LoginFormulario {
 }
 
 interface LoginRequest {
-  usuario: string;
-  clave: string;
-}
-
-interface CiudadanoResponse {
-  idCiudadano: number;
-  apellido: string;
-  nombre: string;
   cuil: string;
-  correo: string | null;
-  telefono: string | null;
-  domicilio: string | null;
-  habilitado: boolean;
+  clave: string;
 }
 
 interface LoginResponse {
   token: string;
-  expiraEn: number;
-  usuario: CiudadanoResponse;
+  idCiudadano: number;
+  nombre: string;
+  apellido: string;
+  perfil: UsuarioAutenticado['perfil'];
+  idRefugio: number | null;
+  idVeterinaria: number | null;
 }
 
 /**
@@ -57,20 +50,20 @@ export class AuthService {
   });
 
   login(formulario: LoginFormulario): Observable<LoginResponse> {
-    const request: LoginRequest = { usuario: formulario.cuil, clave: formulario.clave };
+    const request: LoginRequest = { cuil: formulario.cuil, clave: formulario.clave };
 
     return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, request).pipe(
       tap((respuesta) => {
         this.tokenStorage.guardar(respuesta.token);
 
-        const payload = decodificarPayloadJwt<{ perfil: UsuarioAutenticado['perfil'] }>(respuesta.token);
-
         this.usuarioSignal.set({
-          idCiudadano: respuesta.usuario.idCiudadano,
-          cuil: respuesta.usuario.cuil,
-          nombre: respuesta.usuario.nombre,
-          apellido: respuesta.usuario.apellido,
-          perfil: payload!.perfil,
+          idCiudadano: respuesta.idCiudadano,
+          cuil: formulario.cuil,
+          nombre: respuesta.nombre,
+          apellido: respuesta.apellido,
+          perfil: respuesta.perfil,
+          idRefugio: respuesta.idRefugio,
+          idVeterinaria: respuesta.idVeterinaria,
         });
       }),
     );
@@ -101,15 +94,17 @@ export class AuthService {
       return null;
     }
 
-    // El token no trae nombre ni apellido, solo cuil, idCiudadano y perfil.
-    // Quedan vacíos hasta que la pantalla que los necesite los pida con
-    // CiudadanosService.
+    // El token no trae nombre, apellido, idRefugio ni idVeterinaria,
+    // solo cuil, idCiudadano y perfil. Quedan vacíos/null hasta que la
+    // pantalla que los necesite los pida con el servicio que corresponda.
     return {
       idCiudadano: payload.idCiudadano,
       cuil: payload.sub,
       perfil: payload.perfil,
       nombre: '',
       apellido: '',
+      idRefugio: null,
+      idVeterinaria: null,
     };
   }
 }

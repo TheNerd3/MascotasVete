@@ -1,0 +1,60 @@
+<article class="publicacion-card">
+  <div class="publicacion-card__foto">
+    <mat-icon class="publicacion-card__foto-icono" aria-hidden="true">pets</mat-icon>
+
+    <span
+      class="publicacion-card__badge-estado"
+      [class.publicacion-card__badge-estado--activa]="publicacion().estadoPublicacion === 'Activa'"
+      [class.publicacion-card__badge-estado--pausada]="publicacion().estadoPublicacion === 'Pausada'"
+      [class.publicacion-card__badge-estado--finalizada]="publicacion().estadoPublicacion === 'Finalizada'"
+    >
+      <mat-icon aria-hidden="true">{{
+        publicacion().estadoPublicacion === 'Activa' ? 'check_circle' : 'pause_circle'
+      }}</mat-icon>
+      {{ publicacion().estadoPublicacion }}
+    </span>
+  </div>
+
+  <div class="publicacion-card__cuerpo">
+    <div class="publicacion-card__titulo">
+      <h3 class="publicacion-card__nombre">{{ publicacion().nombreMascota }}</h3>
+      <span class="publicacion-card__nrm">NRM: MUN-{{ publicacion().nroRegMunicipal.toString().padStart(6, '0') }}</span>
+    </div>
+
+    <div class="publicacion-card__datos">
+      <span class="publicacion-card__dato">
+        <mat-icon aria-hidden="true">{{ publicacion().sexoMascota === 'M' ? 'male' : 'female' }}</mat-icon>
+        {{ sexoTexto() }}
+      </span>
+      <span class="publicacion-card__dato">
+        <mat-icon aria-hidden="true">calendar_today</mat-icon>
+        {{ edadTexto() }}
+      </span>
+    </div>
+
+    @if (publicacion().caracteristicasMascota; as descripcion) {
+      <p class="publicacion-card__descripcion">{{ descripcion }}</p>
+    }
+
+    <div class="publicacion-card__acciones">
+      <button
+        type="button"
+        class="publicacion-card__accion publicacion-card__accion--pausar"
+        [attr.aria-label]="accionPausarTexto()"
+        [title]="accionPausarTexto()"
+        (click)="onPausar()"
+      >
+        <mat-icon aria-hidden="true">{{ accionPausarIcono() }}</mat-icon>
+      </button>
+      <button
+        type="button"
+        class="publicacion-card__accion publicacion-card__accion--eliminar"
+        aria-label="Eliminar publicación"
+        title="Eliminar publicación"
+        (click)="onEliminar()"
+      >
+        <mat-icon aria-hidden="true">close</mat-icon>
+      </button>
+    </div>
+  </div>
+</article>

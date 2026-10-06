@@ -1,0 +1,122 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+  max-width: var(--app-max-width-content);
+  margin: 0 auto;
+}
+
+.mis-publicaciones-page {
+  &__encabezado {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-spacing-md);
+    background: var(--mat-sys-surface-container-lowest);
+    border-radius: var(--app-radius-md);
+    box-shadow: var(--app-shadow-card);
+    padding: var(--app-spacing-lg);
+    margin-bottom: var(--app-spacing-md);
+
+    @include bp.desde-sm {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    app-primary-button {
+      align-self: center;
+      width: auto;
+      flex-shrink: 0;
+
+      // app-primary-button es ancho-completo por diseño (pensado para
+      // formularios); acá necesitamos que ocupe solo lo que mide el
+      // texto, con bordes mas redondeados que el default del
+      // componente, asi que se lo forzamos desde afuera en vez de
+      // tocar el componente compartido.
+      ::ng-deep .primary-button {
+        width: auto;
+        padding-inline: var(--app-spacing-lg);
+        border-radius: var(--app-radius-md);
+      }
+    }
+  }
+
+  &__encabezado-texto {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__badge {
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: 2px var(--app-spacing-sm);
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--mat-sys-on-primary-container);
+    background: var(--mat-sys-primary-container);
+  }
+
+  &__titulo {
+    margin: 0 0 5px;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--mat-sys-on-surface);
+
+    @include bp.desde-sm {
+      font-size: 1.75rem;
+    }
+  }
+
+  &__subtitulo {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  &__filtros {
+    display: flex;
+    flex-direction: column;
+    gap: var(--app-spacing-md);
+    background: var(--mat-sys-surface-container-lowest);
+    border-radius: var(--app-radius-md);
+    box-shadow: var(--app-shadow-card);
+    padding: var(--app-spacing-lg);
+    margin-bottom: var(--app-spacing-lg);
+
+    @include bp.desde-sm {
+      flex-direction: row;
+      align-items: flex-end;
+    }
+  }
+
+  &__busqueda {
+    flex: 1;
+  }
+
+  &__estado {
+    min-width: 180px;
+  }
+
+  &__contador {
+    font-size: 0.875rem;
+    color: var(--mat-sys-on-surface-variant);
+    white-space: nowrap;
+
+    @include bp.desde-sm {
+      margin-left: auto;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--app-spacing-md);
+  }
+
+  &__vacio {
+    text-align: center;
+    color: var(--mat-sys-on-surface-variant);
+    padding: var(--app-spacing-xl) 0;
+  }
+}
