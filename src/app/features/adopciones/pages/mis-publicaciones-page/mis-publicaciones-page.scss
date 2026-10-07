@@ -1,9 +1,12 @@
 @use 'breakpoints' as bp;
+@use 'select-buscador';
 
 :host {
   display: block;
   max-width: var(--app-max-width-content);
   margin: 0 auto;
+
+  @include select-buscador.select-buscador;
 }
 
 .mis-publicaciones-page {

@@ -43,6 +43,25 @@ body {
   box-sizing: border-box;
 }
 
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--mat-sys-primary) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--mat-sys-primary);
+  border-radius: 999px;
+}
+
 app-root {
   display: block;
   min-height: 100%;

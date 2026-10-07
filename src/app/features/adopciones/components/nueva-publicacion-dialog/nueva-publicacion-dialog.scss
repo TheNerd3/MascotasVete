@@ -1,8 +1,12 @@
+@use 'select-buscador';
+
 .nueva-publicacion-dialog {
   display: flex;
   flex-direction: column;
   width: min(560px, 90vw);
   max-height: 85vh;
+
+  @include select-buscador.select-buscador;
 
   &__encabezado {
     display: flex;
