@@ -32,29 +32,28 @@
       </span>
     </div>
 
+    @if (especieYRaza(); as especieRaza) {
+      <span class="publicacion-card__especie">{{ especieRaza }}</span>
+    }
+
     @if (publicacion().caracteristicasMascota; as descripcion) {
       <p class="publicacion-card__descripcion">{{ descripcion }}</p>
     }
 
     <div class="publicacion-card__acciones">
-      <button
-        type="button"
-        class="publicacion-card__accion publicacion-card__accion--pausar"
-        [attr.aria-label]="accionPausarTexto()"
-        [title]="accionPausarTexto()"
-        (click)="onPausar()"
-      >
-        <mat-icon aria-hidden="true">{{ accionPausarIcono() }}</mat-icon>
-      </button>
-      <button
-        type="button"
-        class="publicacion-card__accion publicacion-card__accion--eliminar"
-        aria-label="Eliminar publicación"
-        title="Eliminar publicación"
-        (click)="onEliminar()"
-      >
-        <mat-icon aria-hidden="true">close</mat-icon>
-      </button>
+      @for (accionDisponible of publicacion().accionesDisponibles; track accionDisponible) {
+        <button
+          type="button"
+          class="publicacion-card__accion"
+          [class.publicacion-card__accion--pausar]="accionDisponible === 'PAUSAR' || accionDisponible === 'ACTIVAR'"
+          [class.publicacion-card__accion--finalizar]="accionDisponible === 'FINALIZAR'"
+          [attr.aria-label]="etiquetaDe(accionDisponible)"
+          [title]="etiquetaDe(accionDisponible)"
+          (click)="onAccion(accionDisponible)"
+        >
+          <mat-icon aria-hidden="true">{{ iconoDe(accionDisponible) }}</mat-icon>
+        </button>
+      }
     </div>
   </div>
 </article>

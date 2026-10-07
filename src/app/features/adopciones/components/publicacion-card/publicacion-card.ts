@@ -1,13 +1,15 @@
 import { Component, computed, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
+import { AccionPublicacion, PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
 
 /**
- * Tarjeta de una publicación de adopción, con sus acciones de gestión
- * (pausar/reactivar, eliminar). El backend no devuelve foto en el
- * listado, así que se muestra un ícono de mascota como placeholder.
+ * Tarjeta de una publicación de adopción. Los botones de acción salen
+ * de accionesDisponibles (lo que manda el backend según el estado
+ * actual, RF13): el frontend no reimplementa la máquina de estados.
+ * El backend no devuelve foto en el listado, así que se muestra un
+ * ícono de mascota como placeholder.
  *
- *   <app-publicacion-card [publicacion]="p" (pausar)="onPausar($event)" (eliminar)="onEliminar($event)" />
+ *   <app-publicacion-card [publicacion]="p" (accion)="onAccion($event)" />
  */
 @Component({
   selector: 'app-publicacion-card',
@@ -18,8 +20,7 @@ import { PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
 export class PublicacionCard {
   readonly publicacion = input.required<PublicacionAdopcion>();
 
-  readonly pausar = output<PublicacionAdopcion>();
-  readonly eliminar = output<PublicacionAdopcion>();
+  readonly accion = output<{ publicacion: PublicacionAdopcion; accion: AccionPublicacion }>();
 
   protected readonly edadTexto = computed(() => {
     const anio = this.publicacion().anioNacimientoMascota;
@@ -32,19 +33,32 @@ export class PublicacionCard {
 
   protected readonly sexoTexto = computed(() => (this.publicacion().sexoMascota === 'M' ? 'Macho' : 'Hembra'));
 
-  protected readonly accionPausarTexto = computed(() =>
-    this.publicacion().estadoPublicacion === 'Activa' ? 'Pausar publicación' : 'Reactivar publicación',
-  );
+  protected readonly especieYRaza = computed(() => {
+    const { especieMascota, razaMascota } = this.publicacion();
+    return [especieMascota, razaMascota].filter((valor) => !!valor).join(' · ');
+  });
 
-  protected readonly accionPausarIcono = computed(() =>
-    this.publicacion().estadoPublicacion === 'Activa' ? 'pause' : 'play_arrow',
-  );
+  private static readonly ETIQUETAS: Record<AccionPublicacion, string> = {
+    ACTIVAR: 'Reactivar publicación',
+    PAUSAR: 'Pausar publicación',
+    FINALIZAR: 'Finalizar publicación',
+  };
 
-  protected onPausar(): void {
-    this.pausar.emit(this.publicacion());
+  private static readonly ICONOS: Record<AccionPublicacion, string> = {
+    ACTIVAR: 'play_arrow',
+    PAUSAR: 'pause',
+    FINALIZAR: 'flag',
+  };
+
+  protected etiquetaDe(accion: AccionPublicacion): string {
+    return PublicacionCard.ETIQUETAS[accion];
   }
 
-  protected onEliminar(): void {
-    this.eliminar.emit(this.publicacion());
+  protected iconoDe(accion: AccionPublicacion): string {
+    return PublicacionCard.ICONOS[accion];
+  }
+
+  protected onAccion(accion: AccionPublicacion): void {
+    this.accion.emit({ publicacion: this.publicacion(), accion });
   }
 }

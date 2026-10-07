@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthResource } from '../../core/services/auth-resource';
 import { TopBar } from '../../shared/components';
 
 /**
@@ -14,7 +14,7 @@ import { TopBar } from '../../shared/components';
   styleUrl: './app-layout.scss',
 })
 export class AppLayout {
-  private readonly authService = inject(AuthService);
+  private readonly authResource = inject(AuthResource);
 
-  readonly usuario = this.authService.usuario;
+  readonly usuario = this.authResource.usuario;
 }

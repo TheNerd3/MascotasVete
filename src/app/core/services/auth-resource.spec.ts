@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { AuthService } from './auth.service';
+import { AuthResource } from './auth-resource';
 import { environment } from '../../../environments/environment';
 
 function crearJwtDeFantasia(payload: Record<string, unknown>): string {
@@ -10,8 +10,8 @@ function crearJwtDeFantasia(payload: Record<string, unknown>): string {
   return `${encabezado}.${cuerpo}.firma-simulada`;
 }
 
-describe('AuthService', () => {
-  let servicio: AuthService;
+describe('AuthResource', () => {
+  let servicio: AuthResource;
   let backendSimulado: HttpTestingController;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('AuthService', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()],
     });
 
-    servicio = TestBed.inject(AuthService);
+    servicio = TestBed.inject(AuthResource);
     backendSimulado = TestBed.inject(HttpTestingController);
   });
 

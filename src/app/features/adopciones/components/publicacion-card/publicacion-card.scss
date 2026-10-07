@@ -83,6 +83,11 @@
     color: var(--mat-sys-on-surface-variant);
   }
 
+  &__especie {
+    font-size: 0.8125rem;
+    color: var(--mat-sys-on-surface-variant);
+  }
+
   &__datos {
     display: flex;
     gap: var(--app-spacing-md);
@@ -145,9 +150,9 @@
       color: #96661f;
     }
 
-    &--eliminar {
-      background: #f6d9e2;
-      color: #a8425a;
+    &--finalizar {
+      background: #e6e1e5;
+      color: #5c5a5e;
     }
   }
 }

@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../../../../core/services/auth.service';
+import { AuthResource } from '../../../../core/services/auth-resource';
 import { ApiErrorLogin, Perfil } from '../../../../core/models';
 import { BrandHeader } from '../../../../shared/components/brand-header/brand-header';
 import { AuthCard } from '../../../../shared/components/auth-card/auth-card';
@@ -28,7 +28,7 @@ interface CredencialPrueba {
 })
 export class LoginPage {
   private readonly fb = inject(FormBuilder);
-  private readonly authService = inject(AuthService);
+  private readonly authResource = inject(AuthResource);
   private readonly router = inject(Router);
 
   readonly cargando = signal(false);
@@ -74,7 +74,7 @@ export class LoginPage {
     this.cargando.set(true);
     this.errorMensaje.set(null);
 
-    this.authService.login(this.form.getRawValue()).subscribe({
+    this.authResource.login(this.form.getRawValue()).subscribe({
       next: () => {
         this.cargando.set(false);
         this.router.navigateByUrl(this.rutaSegunPerfil());
@@ -87,7 +87,7 @@ export class LoginPage {
   }
 
   private rutaSegunPerfil(): string {
-    const perfil = this.authService.usuario()?.perfil;
+    const perfil = this.authResource.usuario()?.perfil;
 
     if (perfil === Perfil.Refugio) {
       return '/adopciones/mis-publicaciones';

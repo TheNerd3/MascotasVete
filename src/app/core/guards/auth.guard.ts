@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthResource } from '../services/auth-resource';
 
 /**
  * Impide entrar a una ruta si el ciudadano no inició sesión, y lo
@@ -8,10 +8,10 @@ import { AuthService } from '../services/auth.service';
  * autenticación (RNF03: todo lo que no sea público la exige).
  */
 export const authGuard: CanActivateFn = () => {
-  const authService = inject(AuthService);
+  const authResource = inject(AuthResource);
   const router = inject(Router);
 
-  if (authService.estaAutenticado()) {
+  if (authResource.estaAutenticado()) {
     return true;
   }
 

@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthResource } from '../services/auth-resource';
 import { Perfil } from '../models';
 
 /**
@@ -10,9 +10,9 @@ import { Perfil } from '../models';
  */
 export function perfilGuard(perfilesPermitidos: Perfil[]): CanActivateFn {
   return () => {
-    const authService = inject(AuthService);
+    const authResource = inject(AuthResource);
     const router = inject(Router);
-    const usuario = authService.usuario();
+    const usuario = authResource.usuario();
 
     if (usuario && perfilesPermitidos.includes(usuario.perfil)) {
       return true;

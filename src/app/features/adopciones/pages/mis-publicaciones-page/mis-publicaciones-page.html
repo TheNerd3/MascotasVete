@@ -5,7 +5,7 @@
     <p class="mis-publicaciones-page__subtitulo">Administrá las mascotas disponibles para adopción del refugio.</p>
   </div>
 
-  <app-primary-button texto="Nueva publicación" icono="add" />
+  <app-primary-button texto="Nueva publicación" icono="add" (clicked)="abrirNuevaPublicacion()" />
 </header>
 
 <section class="mis-publicaciones-page__filtros">
@@ -21,7 +21,7 @@
 
   <mat-form-field class="mis-publicaciones-page__estado" subscriptSizing="dynamic">
     <mat-label>Estado</mat-label>
-    <mat-select name="estado" [ngModel]="estado()" (ngModelChange)="estado.set($event)">
+    <mat-select name="estado" [ngModel]="estado()" (ngModelChange)="cambiarEstado($event)">
       @for (opcion of estadosDisponibles; track opcion) {
         <mat-option [value]="opcion">{{ opcion }}</mat-option>
       }
@@ -34,7 +34,7 @@
 @if (publicacionesFiltradas().length > 0) {
   <div class="mis-publicaciones-page__grid">
     @for (publicacion of publicacionesFiltradas(); track publicacion.nroPublicacion) {
-      <app-publicacion-card [publicacion]="publicacion" (pausar)="pausar($event)" (eliminar)="eliminar($event)" />
+      <app-publicacion-card [publicacion]="publicacion" (accion)="onAccion($event)" />
     }
   </div>
 } @else {

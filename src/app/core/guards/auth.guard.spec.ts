@@ -3,7 +3,7 @@ import { Router, UrlTree } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { authGuard } from './auth.guard';
-import { AuthService } from '../services/auth.service';
+import { AuthResource } from '../services/auth-resource';
 
 describe('authGuard', () => {
   let router: Router;
@@ -36,16 +36,16 @@ describe('authGuard', () => {
   });
 
   it('con sesión iniciada, deja pasar', () => {
-    const authService = TestBed.inject(AuthService);
-    simularSesionActiva(authService);
+    const authResource = TestBed.inject(AuthResource);
+    simularSesionActiva(authResource);
 
     const resultado = ejecutarGuard();
 
     expect(resultado).toBe(true);
   });
 
-  function simularSesionActiva(authService: AuthService): void {
-    Object.defineProperty(authService, 'estaAutenticado', {
+  function simularSesionActiva(authResource: AuthResource): void {
+    Object.defineProperty(authResource, 'estaAutenticado', {
       value: () => true,
     });
   }

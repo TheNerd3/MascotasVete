@@ -33,7 +33,7 @@ interface LoginResponse {
  * consume POST /auth/login.
  */
 @Injectable({ providedIn: 'root' })
-export class AuthService {
+export class AuthResource {
   private readonly http = inject(HttpClient);
   private readonly tokenStorage = inject(TokenStorageService);
 

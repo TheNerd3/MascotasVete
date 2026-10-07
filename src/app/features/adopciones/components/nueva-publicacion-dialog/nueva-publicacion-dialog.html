@@ -1,0 +1,106 @@
+<div class="nueva-publicacion-dialog">
+  <header class="nueva-publicacion-dialog__encabezado">
+    <h2 class="nueva-publicacion-dialog__titulo">
+      <mat-icon aria-hidden="true">add_circle</mat-icon>
+      Nueva publicación de adopción
+    </h2>
+    <button type="button" class="nueva-publicacion-dialog__cerrar" aria-label="Cerrar" (click)="cerrar()">
+      <mat-icon aria-hidden="true">close</mat-icon>
+    </button>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="enviar()" class="nueva-publicacion-dialog__form">
+    <h3 class="nueva-publicacion-dialog__seccion">Información de la mascota</h3>
+
+    <app-icon-input label="Nombre" icono="pets" placeholder="Ej: Manchita" formControlName="nombre" />
+
+    <div class="nueva-publicacion-dialog__fila">
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Especie</mat-label>
+        <mat-select formControlName="especie">
+          @for (opcion of especies(); track opcion.nroValorDominio) {
+            <mat-option [value]="opcion">{{ opcion.nombre }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field subscriptSizing="dynamic">
+        <mat-label>Sexo</mat-label>
+        <mat-select formControlName="sexo">
+          <mat-option value="M">Macho</mat-option>
+          <mat-option value="H">Hembra</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <app-icon-input
+        label="Edad aproximada (años)"
+        icono="calendar_today"
+        placeholder="Ej: 2"
+        formControlName="anioNacimiento"
+      />
+    </div>
+
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Raza</mat-label>
+      <mat-select formControlName="raza">
+        @for (opcion of razas(); track opcion.nroValorDominio) {
+          <mat-option [value]="opcion">{{ opcion.nombre }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <hr class="nueva-publicacion-dialog__separador" />
+
+    <h3 class="nueva-publicacion-dialog__seccion">
+      <mat-icon aria-hidden="true">description</mat-icon>
+      Descripción de la publicación
+    </h3>
+
+    <app-icon-input
+      label="Descripción general"
+      placeholder="Contá cómo es la mascota, su personalidad, comportamiento y características..."
+      formControlName="caracteristicasMascota"
+    />
+
+    <app-icon-input
+      label="Condiciones básicas de adopción"
+      placeholder="Ej: Se requiere entrevista previa y compromiso de tenencia responsable."
+      formControlName="condicionAdopcion"
+    />
+
+    <hr class="nueva-publicacion-dialog__separador" />
+
+    <h3 class="nueva-publicacion-dialog__seccion">
+      <mat-icon aria-hidden="true">photo_camera</mat-icon>
+      Fotografía
+    </h3>
+
+    <label class="nueva-publicacion-dialog__campo-archivo">
+      <span class="nueva-publicacion-dialog__campo-archivo-label">Imagen de la mascota</span>
+      <div class="nueva-publicacion-dialog__campo-archivo-control">
+        <span class="nueva-publicacion-dialog__campo-archivo-boton">Examinar…</span>
+        <span class="nueva-publicacion-dialog__campo-archivo-nombre">
+          {{ nombreArchivoFoto() ?? 'No se seleccionó un archivo.' }}
+        </span>
+      </div>
+      <input type="file" accept="image/*" hidden (change)="seleccionarFoto($event)" />
+    </label>
+    <p class="nueva-publicacion-dialog__ayuda">La fotografía ayuda a facilitar el proceso de adopción.</p>
+
+    @if (errorMensaje(); as mensaje) {
+      <p class="nueva-publicacion-dialog__error" role="alert" aria-live="assertive">{{ mensaje }}</p>
+    }
+
+    <div class="nueva-publicacion-dialog__acciones">
+      <button type="button" class="nueva-publicacion-dialog__cancelar" (click)="cerrar()">Cancelar</button>
+      <app-primary-button
+        texto="Publicar mascota"
+        textoCargando="Publicando…"
+        icono="check"
+        tipo="submit"
+        [cargando]="cargando()"
+        [deshabilitado]="form.invalid"
+      />
+    </div>
+  </form>
+</div>

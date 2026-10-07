@@ -1,6 +1,6 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthResource } from '../services/auth-resource';
 
 /**
  * Agrega el token de sesión a cada pedido al backend, si hay uno
@@ -14,8 +14,8 @@ import { AuthService } from '../services/auth.service';
  * (ej: POST /publicaciones vs el GET público de /publicaciones).
  */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const authService = inject(AuthService);
-  const token = authService.obtenerToken();
+  const authResource = inject(AuthResource);
+  const token = authResource.obtenerToken();
 
   if (!token) {
     return next(req);

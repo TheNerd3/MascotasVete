@@ -1,16 +1,20 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialog } from '@angular/material/dialog';
 import { PublicacionCard } from '../../components/publicacion-card/publicacion-card';
-import { EstadoPublicacion, PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
+import { NuevaPublicacionDialog } from '../../components/nueva-publicacion-dialog/nueva-publicacion-dialog';
+import { AccionPublicacion, EstadoPublicacion, PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
+import { PublicacionesResource } from '../../services/publicaciones-resource';
 import { IconInput, PrimaryButton } from '../../../../shared/components';
 
 type FiltroEstado = EstadoPublicacion | 'Todos';
 
 /**
  * RF13 - Publicaciones de adopción del refugio logueado: listado con
- * búsqueda por nombre y filtro por estado.
+ * búsqueda por nombre (client-side, sobre la página cargada) y filtro
+ * por estado (server-side, vía GET /publicaciones?estado=).
  */
 @Component({
   selector: 'app-mis-publicaciones-page',
@@ -18,74 +22,62 @@ type FiltroEstado = EstadoPublicacion | 'Todos';
   templateUrl: './mis-publicaciones-page.html',
   styleUrl: './mis-publicaciones-page.scss',
 })
-export class MisPublicacionesPage {
+export class MisPublicacionesPage implements OnInit {
+  private readonly publicacionesResource = inject(PublicacionesResource);
+  private readonly dialog = inject(MatDialog);
+
   protected readonly estadosDisponibles: FiltroEstado[] = ['Todos', 'Activa', 'Pausada', 'Finalizada'];
 
   protected readonly busqueda = signal('');
   protected readonly estado = signal<FiltroEstado>('Todos');
+  protected readonly cargando = signal(false);
 
-  // Parte 3: datos de prueba para revisar el filtrado y la búsqueda.
-  // Se reemplazan por el listado real del backend en la Parte 4.
-  private readonly publicacionesMock = signal<PublicacionAdopcion[]>([
-    {
-      nroPublicacion: 1,
-      nroRegMunicipal: 125,
-      nombreMascota: 'Mora',
-      sexoMascota: 'H',
-      anioNacimientoMascota: new Date().getFullYear() - 2,
-      idRefugio: 10,
-      fechaPublicacion: '2026-09-01',
-      caracteristicasMascota:
-        'Mora es una perrita cariñosa, tranquila y sociable. Busca una familia responsable que pueda brindarle mucho amor.',
-      condicionAdopcion: null,
-      estadoPublicacion: 'Activa',
-    },
-    {
-      nroPublicacion: 2,
-      nroRegMunicipal: 131,
-      nombreMascota: 'Toby',
-      sexoMascota: 'M',
-      anioNacimientoMascota: new Date().getFullYear() - 4,
-      idRefugio: 10,
-      fechaPublicacion: '2026-08-15',
-      caracteristicasMascota: 'Toby es muy juguetón y energético. Se lleva bien con otros perros y disfruta mucho de los paseos.',
-      condicionAdopcion: null,
-      estadoPublicacion: 'Activa',
-    },
-    {
-      nroPublicacion: 3,
-      nroRegMunicipal: 145,
-      nombreMascota: 'Luna',
-      sexoMascota: 'H',
-      anioNacimientoMascota: new Date().getFullYear() - 1,
-      idRefugio: 10,
-      fechaPublicacion: '2026-07-20',
-      caracteristicasMascota: 'Luna es una gatita tranquila y muy cariñosa. Actualmente se encuentra en evaluación para adopción.',
-      condicionAdopcion: null,
-      estadoPublicacion: 'Pausada',
-    },
-  ]);
+  private readonly publicaciones = signal<PublicacionAdopcion[]>([]);
 
   protected readonly publicacionesFiltradas = computed(() => {
     const texto = this.busqueda().trim().toLowerCase();
-    const estadoElegido = this.estado();
 
-    return this.publicacionesMock().filter((publicacion) => {
-      const coincideTexto = !texto || publicacion.nombreMascota.toLowerCase().includes(texto);
-      const coincideEstado = estadoElegido === 'Todos' || publicacion.estadoPublicacion === estadoElegido;
-      return coincideTexto && coincideEstado;
+    return this.publicaciones().filter((publicacion) => {
+      return !texto || publicacion.nombreMascota.toLowerCase().includes(texto);
     });
   });
 
-  protected pausar(publicacion: PublicacionAdopcion): void {
-    const nuevoEstado: EstadoPublicacion = publicacion.estadoPublicacion === 'Activa' ? 'Pausada' : 'Activa';
-
-    this.publicacionesMock.update((lista) =>
-      lista.map((item) => (item.nroPublicacion === publicacion.nroPublicacion ? { ...item, estadoPublicacion: nuevoEstado } : item)),
-    );
+  ngOnInit(): void {
+    this.cargar();
   }
 
-  protected eliminar(publicacion: PublicacionAdopcion): void {
-    this.publicacionesMock.update((lista) => lista.filter((item) => item.nroPublicacion !== publicacion.nroPublicacion));
+  protected cambiarEstado(nuevoEstado: FiltroEstado): void {
+    this.estado.set(nuevoEstado);
+    this.cargar();
+  }
+
+  protected abrirNuevaPublicacion(): void {
+    const referencia = this.dialog.open(NuevaPublicacionDialog);
+
+    referencia.afterClosed().subscribe((publicacionCreada: PublicacionAdopcion | undefined) => {
+      if (publicacionCreada) {
+        this.cargar();
+      }
+    });
+  }
+
+  protected onAccion(evento: { publicacion: PublicacionAdopcion; accion: AccionPublicacion }): void {
+    this.publicacionesResource.cambiarEstado(evento.publicacion.nroPublicacion, evento.accion).subscribe(() => {
+      this.cargar();
+    });
+  }
+
+  private cargar(): void {
+    this.cargando.set(true);
+    const estadoElegido = this.estado();
+    const filtro = estadoElegido === 'Todos' ? undefined : estadoElegido;
+
+    this.publicacionesResource.listarMisPublicaciones(filtro).subscribe({
+      next: (pagina) => {
+        this.publicaciones.set(pagina.content);
+        this.cargando.set(false);
+      },
+      error: () => this.cargando.set(false),
+    });
   }
 }
