@@ -46,4 +46,17 @@ export class PublicacionesResource {
   listarRazas(): Observable<ValorCatalogo[]> {
     return this.http.get<ValorCatalogo[]>(`${environment.apiUrl}/catalogos/razas`);
   }
+
+  /**
+   * Foto propia de una publicación, para cualquier estado (Activa,
+   * Pausada o Finalizada), mientras el refugio autenticado sea el
+   * dueño. Se pide como blob por HttpClient (no <img src> directo)
+   * porque esta ruta exige el header Authorization, que un <img> no
+   * manda.
+   */
+  obtenerFotoPropia(nroPublicacion: number): Observable<Blob> {
+    return this.http.get(`${environment.apiUrl}/publicaciones/${nroPublicacion}/foto/propia`, {
+      responseType: 'blob',
+    });
+  }
 }

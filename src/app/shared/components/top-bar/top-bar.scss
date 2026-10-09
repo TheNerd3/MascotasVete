@@ -79,4 +79,28 @@
       display: inline;
     }
   }
+
+  &__logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+
+    &:hover {
+      background: color-mix(in srgb, var(--mat-sys-on-primary-container) 12%, transparent);
+    }
+
+    mat-icon {
+      font-size: 22px;
+      height: 22px;
+      width: 22px;
+    }
+  }
 }

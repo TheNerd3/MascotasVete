@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthResource } from '../../core/services/auth-resource';
 import { TopBar } from '../../shared/components';
 
@@ -15,6 +15,12 @@ import { TopBar } from '../../shared/components';
 })
 export class AppLayout {
   private readonly authResource = inject(AuthResource);
+  private readonly router = inject(Router);
 
   readonly usuario = this.authResource.usuario;
+
+  protected cerrarSesion(): void {
+    this.authResource.logout();
+    this.router.navigateByUrl('/auth/login');
+  }
 }

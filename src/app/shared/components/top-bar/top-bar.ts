@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 
 /**
@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
  * app-brand-header, que es para las pantallas de login/registro). Se
  * usa igual en cualquier pantalla interna:
  *
- *   <app-top-bar cuil="27-12345678-9">
+ *   <app-top-bar cuil="27-12345678-9" (logout)="onLogout()">
  *     <a routerLink="/adopciones/mis-publicaciones">Publicaciones</a>
  *   </app-top-bar>
  */
@@ -19,4 +19,6 @@ import { MatIconModule } from '@angular/material/icon';
 export class TopBar {
   readonly titulo = input('Mascotas Córdoba');
   readonly cuil = input<string | null>(null);
+
+  readonly logout = output<void>();
 }

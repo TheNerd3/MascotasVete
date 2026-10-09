@@ -1,4 +1,4 @@
-<app-top-bar [cuil]="usuario()?.cuil ?? null">
+<app-top-bar [cuil]="usuario()?.cuil ?? null" (logout)="cerrarSesion()">
   <a routerLink="/adopciones/mis-publicaciones" routerLinkActive="activo">Publicaciones</a>
 </app-top-bar>
 

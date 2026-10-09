@@ -14,4 +14,8 @@
       <span class="top-bar__usuario-cuil">CUIL: {{ valorCuil }}</span>
     </div>
   }
+
+  <button type="button" class="top-bar__logout" aria-label="Cerrar sesión" title="Cerrar sesión" (click)="logout.emit()">
+    <mat-icon aria-hidden="true">logout</mat-icon>
+  </button>
 </header>

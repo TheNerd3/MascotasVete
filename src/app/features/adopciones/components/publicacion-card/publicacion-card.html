@@ -1,6 +1,10 @@
 <article class="publicacion-card">
   <div class="publicacion-card__foto">
-    <mat-icon class="publicacion-card__foto-icono" aria-hidden="true">pets</mat-icon>
+    @if (fotoUrl(); as url) {
+      <img class="publicacion-card__foto-imagen" [src]="url" [alt]="publicacion().nombreMascota" />
+    } @else {
+      <mat-icon class="publicacion-card__foto-icono" aria-hidden="true">pets</mat-icon>
+    }
 
     <span
       class="publicacion-card__badge-estado"
@@ -38,6 +42,13 @@
 
     @if (publicacion().caracteristicasMascota; as descripcion) {
       <p class="publicacion-card__descripcion">{{ descripcion }}</p>
+    }
+
+    @if (publicacion().condicionAdopcion; as condicion) {
+      <p class="publicacion-card__condicion">
+        <mat-icon aria-hidden="true">checklist</mat-icon>
+        {{ condicion }}
+      </p>
     }
 
     <div class="publicacion-card__acciones">

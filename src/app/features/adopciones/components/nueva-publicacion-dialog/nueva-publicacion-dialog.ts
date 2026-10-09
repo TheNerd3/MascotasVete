@@ -126,7 +126,11 @@ export class NuevaPublicacionDialog implements OnInit {
       return 'Esa mascota ya tiene una publicación de adopción activa.';
     }
     if (error.status === 400) {
-      return 'Revisá los datos ingresados: hay campos incompletos o incorrectos.';
+      // El backend manda el detalle de la validación en formato
+      // ProblemDetail (RFC 7807): "caracteristicasMascota: las
+      // caracteristicas son obligatorias", ya en español.
+      const detalle = (error.error as { detail?: string } | null)?.detail;
+      return detalle || 'Revisá los datos ingresados: hay campos incompletos o incorrectos.';
     }
     return 'Ocurrió un error inesperado. Probá de nuevo.';
   }

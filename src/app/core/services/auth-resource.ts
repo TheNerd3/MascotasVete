@@ -88,22 +88,24 @@ export class AuthResource {
       sub: string;
       idCiudadano: number;
       perfil: UsuarioAutenticado['perfil'];
+      idRefugio?: number;
     }>(token);
 
     if (!payload) {
       return null;
     }
 
-    // El token no trae nombre, apellido, idRefugio ni idVeterinaria,
-    // solo cuil, idCiudadano y perfil. Quedan vacíos/null hasta que la
-    // pantalla que los necesite los pida con el servicio que corresponda.
+    // El token trae idRefugio como claim (solo si el perfil es
+    // REFUGIO), pero no nombre, apellido ni idVeterinaria: quedan
+    // vacíos/null hasta que la pantalla que los necesite los pida con
+    // el servicio que corresponda.
     return {
       idCiudadano: payload.idCiudadano,
       cuil: payload.sub,
       perfil: payload.perfil,
       nombre: '',
       apellido: '',
-      idRefugio: null,
+      idRefugio: payload.idRefugio ?? null,
       idVeterinaria: null,
     };
   }

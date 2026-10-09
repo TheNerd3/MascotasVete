@@ -22,18 +22,22 @@ export interface PublicacionAdopcion {
   condicionAdopcion: string | null;
   estadoPublicacion: EstadoPublicacion;
   accionesDisponibles: AccionPublicacion[];
+  fotoExiste: boolean;
 }
 
 /**
- * Página de resultados tal como la devuelve Spring Data
- * (Page<T>, GET /publicaciones).
+ * Página de resultados tal como la devuelve Spring Data con
+ * PageSerializationMode.VIA_DTO (Page<T>, GET /publicaciones): los
+ * metadatos de paginación van anidados bajo "page", no al nivel raíz.
  */
 export interface PaginaPublicaciones {
   content: PublicacionAdopcion[];
-  totalElements: number;
-  totalPages: number;
-  number: number;
-  size: number;
+  page: {
+    size: number;
+    number: number;
+    totalElements: number;
+    totalPages: number;
+  };
 }
 
 /**

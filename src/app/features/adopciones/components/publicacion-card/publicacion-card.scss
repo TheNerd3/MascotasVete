@@ -22,6 +22,12 @@
     color: color-mix(in srgb, var(--mat-sys-on-surface-variant) 55%, transparent);
   }
 
+  &__foto-imagen {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   &__badge-estado {
     position: absolute;
     top: var(--app-spacing-sm);
@@ -115,6 +121,23 @@
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+  }
+
+  &__condicion {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--mat-sys-on-surface-variant);
+
+    mat-icon {
+      flex-shrink: 0;
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+      margin-top: 2px;
+    }
   }
 
   &__acciones {
