@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { IconInput } from '../../../../shared/components/icon-input/icon-input';
 import { PrimaryButton } from '../../../../shared/components/primary-button/primary-button';
 import { PublicacionesResource } from '../../services/publicaciones-resource';
-import { CrearPublicacion, PublicacionAdopcion, ValorCatalogo } from '../../models/publicacion-adopcion.model';
+import { CrearPublicacion, PublicacionAdopcion, ValorCatalogo } from '../../interfaces/publicacion-adopcion.model';
 
 /**
  * RF13 - Alta de publicación de adopción. La mascota se registra en el

@@ -9,7 +9,7 @@ import {
   PaginaPublicaciones,
   PublicacionAdopcion,
   ValorCatalogo,
-} from '../models/publicacion-adopcion.model';
+} from '../interfaces/publicacion-adopcion.model';
 
 /**
  * RF13 - Publicaciones de adopción del refugio autenticado. Expone

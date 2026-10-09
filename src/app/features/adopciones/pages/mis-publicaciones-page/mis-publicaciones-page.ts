@@ -5,7 +5,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDialog } from '@angular/material/dialog';
 import { PublicacionCard } from '../../components/publicacion-card/publicacion-card';
 import { NuevaPublicacionDialog } from '../../components/nueva-publicacion-dialog/nueva-publicacion-dialog';
-import { AccionPublicacion, EstadoPublicacion, PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
+import { AccionPublicacion, EstadoPublicacion, PublicacionAdopcion } from '../../interfaces/publicacion-adopcion.model';
 import { PublicacionesResource } from '../../services/publicaciones-resource';
 import { IconInput, PrimaryButton } from '../../../../shared/components';
 

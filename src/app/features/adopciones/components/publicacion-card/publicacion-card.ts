@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { AccionPublicacion, PublicacionAdopcion } from '../../models/publicacion-adopcion.model';
+import { AccionPublicacion, PublicacionAdopcion } from '../../interfaces/publicacion-adopcion.model';
 
 /**
  * Tarjeta de una publicación de adopción. Los botones de acción salen
